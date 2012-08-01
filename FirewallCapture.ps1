@@ -1,5 +1,5 @@
 ﻿param (
-	[string] $logPath = "C:\Development\FirewallCapture\pfirewall.log",
+	[string] $logPath = "C:\Windows\System32\LogFiles\Firewall\pfirewall.log",
 	[switch] $monitor
 )
 
