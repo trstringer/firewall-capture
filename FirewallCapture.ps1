@@ -9,6 +9,9 @@
     'C:\Windows\System32\LogFiles\Firewall\pfirewall.log'
     Alternatively the LogEntries can be reloaded every 2 seconds,
     to get a live reading.
+    Also, if the script isn't able to read the Firewall Log, it checks
+    if the log is missing or empty and if the Firewall is actually turned
+    on or not.
     
 .PARAMETER logPath
     Alternate Path to the Windows Firewall LogFile
@@ -52,6 +55,8 @@
     Original Author: Thomas 'trstringer' Stringer
     Github Page: https://github.com/trstringer
     Forked from: https://github.com/trstringer/FirewallCapture
+    
+    Code snippets from: http://pshscripts.blogspot.com/2010/03/get-firewallstatusps1.html
 #>
 
 <#
@@ -171,7 +176,6 @@ function Check-FirewallStatus {
     # Get the current profile for the local firewall policy. 
     $profile = $fwMgr.LocalPolicy.CurrentProfile 
  
-    # End Script
     $result = $profile.FirewallEnabled 
     $result
 }
