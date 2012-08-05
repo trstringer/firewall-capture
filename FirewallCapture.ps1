@@ -43,9 +43,9 @@
     
 .NOTES
     File Name: FirewallCapture.ps1
+    Creation Date: 05.08.2012
     
     Author: Ritchie 'Xenplex' Flick
-    Date: 05.08.2012
     Github Page: https://github.com/Xenplex
     Repository:  https://github.com/Xenplex/FirewallCapture
     
@@ -54,15 +54,41 @@
     Forked from: https://github.com/trstringer/FirewallCapture
 #>
 
+<#
+ *
+ * SCRIPT PARAMETERS *
+ *
+#>
 param (
 	[string] $logPath = "C:\Windows\System32\LogFiles\Firewall\pfirewall.log",
 	[switch] $monitor
 )
 
+<#
+ *
+ * FUNCTION DEFINITIONS *
+ *
+#>
+<#
+	Name:'Get-FirewallLog'
+	Creation date: 05.08.2012
+	Description: This function is used to filter out comment lines inside the log File
+    as for example: '#Software: Microsoft Windows Firewall'
+#>
 function Get-FirewallLog {
 param (
 	[string] $firewallLogPath
 )
+    <#
+        Get-Content gets the content of the LogFile
+        ->
+        The ForEach-Object goes over all elements(objects) and removes with TrimStart() all
+        whitespace from the beginning of a string
+        ->
+        The Where-Object goes over all elements(objects) (which it gets from ForEach-Object) and
+        if at the beginning of a line there isn't a # or * (Which would indicate a comment line)
+        and if TrimStart() doesn't return an empty line, then the element gets saved in $logArray
+    #>
 	$logArray = Get-Content -Path $logPath |
 		ForEach-Object {
 			$_.TrimStart()
@@ -74,6 +100,16 @@ param (
 		
 	$logArray
 }
+
+<#
+	Name:'Out-FirewallLog'
+	Creation date: 05.08.2012
+	Description: This function takes the elements from its parameter and
+    seperates each element after a whitespace.
+    Every element becomes a Noteproperty and gets a name and gets saved into a
+    temp variable
+    All temp variables are getting saved together into $allItems and then displayed
+#>
 function Out-FirewallLog {
 param (
 	[String[]] $firewallLog
@@ -100,6 +136,11 @@ param (
 		Format-Table -AutoSize
 }
 
+<#
+ *
+ * MAIN EXECUTION *
+ *
+#>
 if ($monitor) {
 	while ($true) {
 		$myLog = Get-FirewallLog -firewallLogPath $logPath
