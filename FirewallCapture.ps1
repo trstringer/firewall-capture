@@ -140,6 +140,7 @@ param (
 	Name:'Check-LogFile'
 	Creation date: 05.08.2012
 	Description: Check-LogFile checks if LogFile is at the specified path and if it's empty or not
+    and returns true if it's empty/missing
 #>
 function Check-LogFile {
 param (
@@ -157,15 +158,41 @@ param (
 }
 
 <#
+	Name:'Check-FirewallStatus'
+	Creation date: 05.08.2012
+	Description: The original code for this function was taken from: 
+    'http://pshscripts.blogspot.com/2010/03/get-firewallstatusps1.html'
+    but was trimmed down to better serve the purpose of this script
+#>
+function Check-FirewallStatus {
+    # Create the firewall manager object. 
+    $fwMgr = New-Object -com HNetCfg.FwMgr 
+  
+    # Get the current profile for the local firewall policy. 
+    $profile = $fwMgr.LocalPolicy.CurrentProfile 
+ 
+    # End Script
+    $result = $profile.FirewallEnabled 
+    $result
+}
+
+<#
  *
  * MAIN EXECUTION *
  *
 #>
 $Check = Check-LogFile -logFile $logPath
 if ($Check) {
-    "Log File is empty or doesn't exist, can't check LogFile"
-    "Closing script"
-    exit
+    $status = Check-FirewallStatus
+    if ($status -eq $false) {
+        "Firewall isn't enabled! Please enable your Firewall!"
+        exit
+    }
+    else {
+        "Log File is empty or doesn't exist, can't check LogFile"
+        "Closing script"
+        exit
+    }
 }
 else {
     if ($monitor) {
