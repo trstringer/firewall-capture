@@ -137,19 +137,47 @@ param (
 }
 
 <#
+	Name:'Check-LogFile'
+	Creation date: 05.08.2012
+	Description: Check-LogFile checks if LogFile is at the specified path and if it's empty or not
+#>
+function Check-LogFile {
+param (
+    [String[]] $logFile
+    )
+    
+    $existence = Test-Path $logFile
+    if ($existence) {
+        $result = (Get-Content $logFile) -eq $Null
+    }
+    else {
+        $result = $true
+    }
+    $result
+}
+
+<#
  *
  * MAIN EXECUTION *
  *
 #>
-if ($monitor) {
-	while ($true) {
-		$myLog = Get-FirewallLog -firewallLogPath $logPath
-		Out-FirewallLog -firewallLog $myLog
-
-		Start-Sleep -Seconds 2
-	}
+$Check = Check-LogFile -logFile $logPath
+if ($Check) {
+    "Log File is empty or doesn't exist, can't check LogFile"
+    "Closing script"
+    exit
 }
 else {
-	$myLog = Get-FirewallLog -firewallLogPath $logPath
-	Out-FirewallLog -firewallLog $myLog
+    if ($monitor) {
+	   while ($true) {
+		  $myLog = Get-FirewallLog -firewallLogPath $logPath
+		  Out-FirewallLog -firewallLog $myLog
+
+		  Start-Sleep -Seconds 2
+	   }
+    }
+    else {
+	   $myLog = Get-FirewallLog -firewallLogPath $logPath
+	   Out-FirewallLog -firewallLog $myLog
+    }
 }
