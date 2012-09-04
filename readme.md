@@ -1,29 +1,19 @@
-Firewall Capture
-==================
+#Firewall Capture
 
-<#
+## Description
 
-.SYNOPSIS
-    Captures the LogEntries of the standard Windows Firewall
-
-.DESCRIPTION
     This PowerShell Script can be used to show the ongoing
     LogEntries of the standard Windows Firewall located in:
     'C:\Windows\System32\LogFiles\Firewall\pfirewall.log'
-    Alternatively the LogEntries can be reloaded every 2 seconds,
+    The LogEntries can be reloaded every 2 seconds,
     to get a live reading.
-    
-.PARAMETER logPath
-    Alternate Path to the Windows Firewall LogFile
-    Default :: C:\Windows\System32\LogFiles\Firewall\pfirewall.log
+    The user can alternatively select another directory through
+    parameters.
 
-.PARAMETER monitor
-    boolean value (true/false) if LogEntries should be reloaded every
-    2 seconds
-    Default :: false
+## Example
 
-.EXAMPLE
     .\FirewallCapture.ps1 C:\Windows\System32\LogFiles\Firewall\pfirewall.log true
+    
     Date       Time     Action           Protocol   SrcIp         DstIp           Src Port
     ----       ----     ------           --------    -----         -----           ---
     2005-04-11 08:05:57 DROP             UDP      123.45.678.90 255.255.255.255     163
@@ -44,15 +34,6 @@ Firewall Capture
 
     Example LogFile taken from: http://technet.microsoft.com/en-us/library/cc758040(v=ws.10).aspx
     
-.NOTES
-    File Name: FirewallCapture.ps1
-    
-    Author: Ritchie 'Xenplex' Flick
-    Date: 05.08.2012
-    Github Page: https://github.com/Xenplex
-    Repository:  https://github.com/Xenplex/FirewallCapture
-    
-    Original Author: Thomas 'trstringer' Stringer
-    Github Page: https://github.com/trstringer
-    Forked from: https://github.com/trstringer/FirewallCapture
-#>
+## Documentation
+
+    Documentation for the Script can be found in 'FirewallCapture.ps1' file itself.
