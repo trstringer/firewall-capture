@@ -1,4 +1,4 @@
-﻿<#
+<#
 
 .SYNOPSIS
     Captures the LogEntries of the standard Windows Firewall
@@ -24,23 +24,23 @@
 
 .EXAMPLE
     .\FirewallCapture.ps1 C:\Windows\System32\LogFiles\Firewall\pfirewall.log true
-    Date       Time     Action           Protocol   SrcIp         DstIp           Src Port
-    ----       ----     ------           --------    -----         -----           ---
-    2005-04-11 08:05:57 DROP             UDP      123.45.678.90 255.255.255.255     163
-    2005-04-11 08:05:57 DROP             UDP      123.45.678.90 123.456.78.255      137
-    2005-04-11 08:05:58 DROP             UDP      123.45.678.90 123.456.78.255      138
-    2005-04-11 08:05:58 OPEN             UDP      123.45.678.90 123.456.78.90       500
-    2005-04-11 08:06:02 CLOSE            UDP      123.45.678.90 123.456.78.90       137
-    2005-04-11 08:06:02 CLOSE            UDP      123.45.678.90 123.456.78.90       102
-    2005-04-11 08:06:05 DROP             UDP      0.0.0.0       255.255.255.255     68
-    2005-04-11 08:06:26 DROP             TCP      123.45.678.90 123.456.78.90       80
-    2005-04-11 08:06:27 DROP             TCP      123.45.678    90                  123
-    2005-04-11 08:08:58 DROP             ICMP     123.45.678.90 123.456.78.90       7
-    2005-04-11 08:09:29 OPEN             TCP      123.45.678.90 123.456.78.90       160
-    2005-04-11 08:09:30 CLOSE            TCP      123.45.678.90 123.456.78.90       160
-    2005-04-11 08:48:46 DROP             TCP      123.45.678.90 123.456.78.90       80
-    2005-04-11 08:48:46 DROP             TCP      123.45.678.90 123.456.78.90       80
-    2005-04-11 08:52:26 INFO-EVENTS-LOST -        -             -                   -
+    Date       Time     Action           Protocol   SrcIp         	DstIp           	Src Port
+    ----       ----     ------           --------    -----         	-----           	---
+    2005-04-11 08:05:57 DROP             UDP      123.45.678.90 	255.255.255.255     	163
+    2005-04-11 08:05:57 DROP             UDP      123.45.678.90 	123.456.78.255      	137
+    2005-04-11 08:05:58 DROP             UDP      123.45.678.90 	123.456.78.255      	138
+    2005-04-11 08:05:58 OPEN             UDP      123.45.678.90 	123.456.78.90       	500
+    2005-04-11 08:06:02 CLOSE            UDP      123.45.678.90 	123.456.78.90       	137
+    2005-04-11 08:06:02 CLOSE            UDP      123.45.678.90 	123.456.78.90       	102
+    2005-04-11 08:06:05 DROP             UDP      0.0.0.0       	255.255.255.255     	68
+    2005-04-11 08:06:26 DROP             TCP      123.45.678.90 	123.456.78.90       	80
+    2005-04-11 08:06:27 DROP             TCP      123.45.678    	90                  	123
+    2005-04-11 08:08:58 DROP             ICMP     123.45.678.90 	123.456.78.90       	7
+    2005-04-11 08:09:29 OPEN             TCP      123.45.678.90 	123.456.78.90       	160
+    2005-04-11 08:09:30 CLOSE            TCP      123.45.678.90 	123.456.78.90       	160
+    2005-04-11 08:48:46 DROP             TCP      123.45.678.90 	123.456.78.90       	80
+    2005-04-11 08:48:46 DROP             TCP      123.45.678.90 	123.456.78.90       	80
+    2005-04-11 08:52:26 INFO-EVENTS-LOST -        -             	-                   	-
 
     Example LogFile taken from: http://technet.microsoft.com/en-us/library/cc758040(v=ws.10).aspx
     
@@ -78,7 +78,7 @@ param (
 	Name:'Get-FirewallLog'
 	Creation date: 05.08.2012
 	Description: This function is used to filter out comment lines inside the log File
-    as for example: '#Software: Microsoft Windows Firewall'
+    	as for example: '#Software: Microsoft Windows Firewall'
 #>
 function Get-FirewallLog {
 param (
@@ -110,10 +110,10 @@ param (
 	Name:'Out-FirewallLog'
 	Creation date: 05.08.2012
 	Description: This function takes the elements from its parameter and
-    seperates each element after a whitespace.
-    Every element becomes a Noteproperty and gets a name and gets saved into a
-    temp variable
-    All temp variables are getting saved together into $allItems and then displayed
+   	seperates each element after a whitespace.
+    	Every element becomes a Noteproperty and gets a name and gets saved into a
+    	temp variable
+    	All temp variables are getting saved together into $allItems and then displayed
 #>
 function Out-FirewallLog {
 param (
@@ -145,7 +145,7 @@ param (
 	Name:'Check-LogFile'
 	Creation date: 05.08.2012
 	Description: Check-LogFile checks if LogFile is at the specified path and if it's empty or not
-    and returns true if it's empty/missing
+    	and returns true if it's empty/missing
 #>
 function Check-LogFile {
 param (
@@ -166,8 +166,8 @@ param (
 	Name:'Check-FirewallStatus'
 	Creation date: 05.08.2012
 	Description: The original code for this function was taken from: 
-    'http://pshscripts.blogspot.com/2010/03/get-firewallstatusps1.html'
-    but was trimmed down to better serve the purpose of this script
+    	'http://pshscripts.blogspot.com/2010/03/get-firewallstatusps1.html'
+    	but was trimmed down to better serve the purpose of this script
 #>
 function Check-FirewallStatus {
     # Create the firewall manager object. 
@@ -186,6 +186,8 @@ function Check-FirewallStatus {
  *
 #>
 $Check = Check-LogFile -logFile $logPath
+# Checks if Firewall is enabled & if the Log File is empty or doesn't exist
+# and exits the script if any of these conditions is true
 if ($Check) {
     $status = Check-FirewallStatus
     if ($status -eq $false) {
@@ -204,7 +206,7 @@ else {
 		  $myLog = Get-FirewallLog -firewallLogPath $logPath
 		  Out-FirewallLog -firewallLog $myLog
 
-		  Start-Sleep -Seconds 2
+		  Start-Sleep -Seconds 2		# The LogFile will be updated every 2 seconds
 	   }
     }
     else {
