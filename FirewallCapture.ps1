@@ -204,7 +204,7 @@ function Check-FirewallStatus {
 Check-Admin	# Checks if the user is running the script with administrator rights
 $Check = Check-LogFile -logFile $logPath
 # Checks if Firewall is enabled & if the Log File is empty or doesn't exist
-# and exits the script if any of these conditions are true
+# and exits the script if any of these conditions are false
 if ($Check) {
     $status = Check-FirewallStatus
     if ($status -eq $false) {
