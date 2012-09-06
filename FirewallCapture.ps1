@@ -75,6 +75,22 @@ param (
  *
 #>
 <#
+	Name:'Check-Admin'
+	Creation date: 06.09.2012
+	Description: This function checks if the user is running the script
+	with the necessary administrator priviliges!
+#>
+function Check-Admin {
+	If (-NOT ([Security.Principal.WindowsPrincipal]
+	[Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(`
+    		[Security.Principal.WindowsBuiltInRole] "Administrator"))
+	{
+    		Write-Warning "You do not have Administrator rights to run this script!`nPlease re-run this script as an Administrator!"
+    		Break
+	}
+}
+
+<#
 	Name:'Get-FirewallLog'
 	Creation date: 05.08.2012
 	Description: This function is used to filter out comment lines inside the log File
@@ -185,6 +201,7 @@ function Check-FirewallStatus {
  * MAIN EXECUTION *
  *
 #>
+Check-Admin	# Checks if the user is running the script with administrator rights
 $Check = Check-LogFile -logFile $logPath
 # Checks if Firewall is enabled & if the Log File is empty or doesn't exist
 # and exits the script if any of these conditions is true
