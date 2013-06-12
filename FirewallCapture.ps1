@@ -81,13 +81,12 @@ param (
 	with the necessary administrator priviliges!
 #>
 function Check-Admin {
-	If (-NOT ([Security.Principal.WindowsPrincipal]
-	[Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole(`
-    		[Security.Principal.WindowsBuiltInRole] "Administrator"))
-	{
-    		Write-Warning "You do not have Administrator rights to run this script!`nPlease re-run this script as an Administrator!"
-    		Break
-	}
+        $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+        $principal = New-Object Security.Principal.WindowsPrincipal -ArgumentList $identity
+        if (-not $principal.IsInRole( [Security.Principal.WindowsBuiltInRole]::Administrator )) {
+            Write-Host -ForegroundColor Red "You are not running with admin priviliges."
+            break
+        }
 }
 
 <#
